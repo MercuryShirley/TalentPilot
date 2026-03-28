@@ -1,9 +1,5 @@
 {
-  "functions": {
-    "api/index.py": {
-      "runtime": "python3.11"
-    }
-  },
+  "version": 2,
   "routes": [
     {
       "src": "/(.*)",
@@ -11,3 +7,4 @@
     }
   ]
 }
+
