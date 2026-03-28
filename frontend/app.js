@@ -774,26 +774,35 @@ async function generateProfileAndRecs() {
   }, 900);
 }
 
-document.getElementById("startAssessmentBtn").onclick = () => {
-  showScreen("assessment");
-  renderWizard();
-};
+const startAssessmentBtn = document.getElementById("startAssessmentBtn");
+if (startAssessmentBtn) {
+  startAssessmentBtn.onclick = () => {
+    showScreen("assessment");
+    renderWizard();
+  };
+}
 
-document.getElementById("browseDirectBtn").onclick = async () => {
-  try {
-    await openBrowseMode();
-  } catch (e) {
-    alert(`社团广场加载失败：${e.message}`);
-  }
-};
+const browseDirectBtn = document.getElementById("browseDirectBtn");
+if (browseDirectBtn) {
+  browseDirectBtn.onclick = async () => {
+    try {
+      await openBrowseMode();
+    } catch (e) {
+      alert(`社团广场加载失败：${e.message}`);
+    }
+  };
+}
 
-document.getElementById("enterClubPlazaBtn").onclick = async () => {
-  try {
-    await openBrowseMode();
-  } catch (e) {
-    alert(`社团广场加载失败：${e.message}`);
-  }
-};
+const enterClubPlazaBtn = document.getElementById("enterClubPlazaBtn");
+if (enterClubPlazaBtn) {
+  enterClubPlazaBtn.onclick = async () => {
+    try {
+      await openBrowseMode();
+    } catch (e) {
+      alert(`社团广场加载失败：${e.message}`);
+    }
+  };
+}
 
 document.querySelectorAll("#homeTabs .hero-tab").forEach((tabBtn) => {
   tabBtn.onclick = async () => {
@@ -812,96 +821,123 @@ document.querySelectorAll("#homeTabs .hero-tab").forEach((tabBtn) => {
   };
 });
 
-document.getElementById("globalAIBtn").onclick = () => openGlobalAssistant();
+const globalAIBtn = document.getElementById("globalAIBtn");
+if (globalAIBtn) globalAIBtn.onclick = () => openGlobalAssistant();
 
-openPostModalBtn.onclick = () => activityPostModal.classList.remove("hidden");
-closePostModalBtn.onclick = () => activityPostModal.classList.add("hidden");
-activityPostModal.onclick = (e) => {
-  if (e.target === activityPostModal) activityPostModal.classList.add("hidden");
-};
+if (openPostModalBtn) openPostModalBtn.onclick = () => activityPostModal.classList.remove("hidden");
+if (closePostModalBtn) closePostModalBtn.onclick = () => activityPostModal.classList.add("hidden");
+if (activityPostModal) {
+  activityPostModal.onclick = (e) => {
+    if (e.target === activityPostModal) activityPostModal.classList.add("hidden");
+  };
+}
 
-clubPostForm.onsubmit = submitClubPost;
+if (clubPostForm) clubPostForm.onsubmit = submitClubPost;
 
-document.getElementById("backToWelcomeBtn").onclick = () => showScreen("welcome");
-document.getElementById("backToWelcomeFromBrowseBtn").onclick = () => showScreen("welcome");
-document.getElementById("backToAssessmentBtn").onclick = () => showScreen("assessment");
+const backToWelcomeBtn = document.getElementById("backToWelcomeBtn");
+if (backToWelcomeBtn) backToWelcomeBtn.onclick = () => showScreen("welcome");
+const backToWelcomeFromBrowseBtn = document.getElementById("backToWelcomeFromBrowseBtn");
+if (backToWelcomeFromBrowseBtn) backToWelcomeFromBrowseBtn.onclick = () => showScreen("welcome");
+const backToAssessmentBtn = document.getElementById("backToAssessmentBtn");
+if (backToAssessmentBtn) backToAssessmentBtn.onclick = () => showScreen("assessment");
 
-document.getElementById("browsePrevBtn").onclick = () => {
-  state.browsePage -= 1;
-  renderBrowseList();
-};
+const browsePrevBtn = document.getElementById("browsePrevBtn");
+if (browsePrevBtn) {
+  browsePrevBtn.onclick = () => {
+    state.browsePage -= 1;
+    renderBrowseList();
+  };
+}
 
-document.getElementById("browseNextBtn").onclick = () => {
-  state.browsePage += 1;
-  renderBrowseList();
-};
+const browseNextBtn = document.getElementById("browseNextBtn");
+if (browseNextBtn) {
+  browseNextBtn.onclick = () => {
+    state.browsePage += 1;
+    renderBrowseList();
+  };
+}
 
-document.getElementById("chatCloseBtn").onclick = () => {
-  clubChatModal.classList.add("hidden");
-};
+const chatCloseBtn = document.getElementById("chatCloseBtn");
+if (chatCloseBtn) {
+  chatCloseBtn.onclick = () => {
+    clubChatModal.classList.add("hidden");
+  };
+}
 
-chatSendBtn.onclick = sendClubChatMessage;
-chatInput.onkeydown = (e) => {
-  if (e.key === "Enter") sendClubChatMessage();
-};
+if (chatSendBtn) chatSendBtn.onclick = sendClubChatMessage;
+if (chatInput) {
+  chatInput.onkeydown = (e) => {
+    if (e.key === "Enter") sendClubChatMessage();
+  };
+}
 
-document.getElementById("restartBtn").onclick = () => {
-  Object.assign(state, {
-    screen: "welcome",
-    wizardStep: 0,
-    studentName: "",
-    interests: [],
-    skills: [],
-    weeklyHours: 4,
-    assessmentAnswers: new Array(ASSESSMENT_QUESTIONS.length).fill(""),
-    profile: null,
-    recommendations: [],
-    shownRecommendations: [],
-    clubs: state.clubs,
-    browseCategory: "全部",
-    browsePage: 1,
-    clubChats: {},
-    currentChatClub: null,
-    currentChatKey: null,
-    chatTyping: {},
-    activityPosts: state.activityPosts,
-  });
-  showScreen("welcome");
-};
+const restartBtn = document.getElementById("restartBtn");
+if (restartBtn) {
+  restartBtn.onclick = () => {
+    Object.assign(state, {
+      screen: "welcome",
+      wizardStep: 0,
+      studentName: "",
+      interests: [],
+      skills: [],
+      weeklyHours: 4,
+      assessmentAnswers: new Array(ASSESSMENT_QUESTIONS.length).fill(""),
+      profile: null,
+      recommendations: [],
+      shownRecommendations: [],
+      clubs: state.clubs,
+      browseCategory: "全部",
+      browsePage: 1,
+      clubChats: {},
+      currentChatClub: null,
+      currentChatKey: null,
+      chatTyping: {},
+      activityPosts: state.activityPosts,
+    });
+    showScreen("welcome");
+  };
+}
 
-document.getElementById("shuffleBtn").onclick = () => {
-  if (!state.recommendations.length) return;
-  const shuffled = [...state.recommendations].sort(() => Math.random() - 0.5);
-  state.shownRecommendations = shuffled;
-  renderResults();
-};
+const shuffleBtn = document.getElementById("shuffleBtn");
+if (shuffleBtn) {
+  shuffleBtn.onclick = () => {
+    if (!state.recommendations.length) return;
+    const shuffled = [...state.recommendations].sort(() => Math.random() - 0.5);
+    state.shownRecommendations = shuffled;
+    renderResults();
+  };
+}
 
-wizardPrevBtn.onclick = () => {
-  if (state.wizardStep > 0) {
-    state.wizardStep -= 1;
-    renderWizard();
-  }
-};
+if (wizardPrevBtn) {
+  wizardPrevBtn.onclick = () => {
+    if (state.wizardStep > 0) {
+      state.wizardStep -= 1;
+      renderWizard();
+    }
+  };
+}
 
-wizardNextBtn.onclick = async () => {
-  if (!validateStep()) {
-    alert("请先完成当前步骤");
-    return;
-  }
+if (wizardNextBtn) {
+  wizardNextBtn.onclick = async () => {
+    if (!validateStep()) {
+      alert("请先完成当前步骤");
+      return;
+    }
 
-  if (state.wizardStep < stepCount() - 1) {
-    state.wizardStep += 1;
-    renderWizard();
-    return;
-  }
+    if (state.wizardStep < stepCount() - 1) {
+      state.wizardStep += 1;
+      renderWizard();
+      return;
+    }
 
-  try {
-    await generateProfileAndRecs();
-  } catch (e) {
-    generateOverlay.classList.add("hidden");
-    alert(`生成失败：${e.message}`);
-  }
-};
+    try {
+      await generateProfileAndRecs();
+    } catch (e) {
+      generateOverlay.classList.add("hidden");
+      alert(`生成失败：${e.message}`);
+    }
+  };
+}
 
 showScreen("welcome");
 loadClubPosts().catch(() => {});
