@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://talent-pilot-one.vercel.app/:path*"
+      "destination": "https://talent-pilot-one.vercel.app/api/:path*"
     }
   ]
 }
