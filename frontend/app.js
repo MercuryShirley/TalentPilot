@@ -1,4 +1,4 @@
-const API_BASE = "http://127.0.0.1:8001/api";
+const API_BASE = "/api";
 
 const INTEREST_OPTIONS = ["科技", "音乐", "公益", "体育", "传媒", "传统文化", "推理", "艺术创作", "社交"];
 const SKILL_OPTIONS = ["沟通", "组织", "写作", "策划", "编程", "设计", "表达", "研究", "执行"];
@@ -55,6 +55,9 @@ const chatInput = document.getElementById("chatInput");
 const chatSendBtn = document.getElementById("chatSendBtn");
 const clubPostForm = document.getElementById("clubPostForm");
 const browseActivityList = document.getElementById("browseActivityList");
+const activityPostModal = document.getElementById("activityPostModal");
+const openPostModalBtn = document.getElementById("openPostModalBtn");
+const closePostModalBtn = document.getElementById("closePostModalBtn");
 
 async function api(path, options = {}) {
   const res = await fetch(`${API_BASE}${path}`, {
@@ -664,16 +667,33 @@ function renderActivityCards(container, posts, emptyText) {
     const card = document.createElement("article");
     card.className = "publisher-item";
     const time = new Date(post.event_time);
+    const fallbackCover = "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1200&q=80";
+    const coverUrl = (post.cover_url || "").trim() || fallbackCover;
+    const applyLink = (post.apply_link || "").trim();
     card.innerHTML = `
-      ${post.cover_url ? `<img src="${post.cover_url}" alt="${post.title}" />` : ""}
+      <img src="${coverUrl}" alt="${post.title}" />
       <div class="publisher-item-body">
         <h4>${post.title}</h4>
         <p class="publisher-meta">${post.club_name} · ${Number.isNaN(time.getTime()) ? post.event_time : time.toLocaleString()}</p>
         <p class="publisher-meta">📍 ${post.location}</p>
         <p>${post.content}</p>
-        <a href="${post.apply_link}" target="_blank" rel="noopener">去报名</a>
+        <button class="ghost-btn activity-apply-btn">去报名</button>
       </div>
     `;
+
+    const img = card.querySelector("img");
+    img.onerror = () => {
+      img.src = fallbackCover;
+    };
+
+    card.querySelector(".activity-apply-btn").onclick = () => {
+      if (!applyLink || /example\.com/.test(applyLink)) {
+        alert("该活动暂未配置有效报名链接，请先获取社团群联系负责人报名。");
+        return;
+      }
+      window.open(applyLink, "_blank", "noopener");
+    };
+
     container.appendChild(card);
   });
 }
@@ -716,6 +736,7 @@ async function submitClubPost(event) {
     });
 
     clubPostForm.reset();
+    activityPostModal.classList.add("hidden");
     await loadClubPosts();
     alert("活动发布成功，已展示在社团活动列表中。");
   } catch (e) {
@@ -792,6 +813,12 @@ document.querySelectorAll("#homeTabs .hero-tab").forEach((tabBtn) => {
 });
 
 document.getElementById("globalAIBtn").onclick = () => openGlobalAssistant();
+
+openPostModalBtn.onclick = () => activityPostModal.classList.remove("hidden");
+closePostModalBtn.onclick = () => activityPostModal.classList.add("hidden");
+activityPostModal.onclick = (e) => {
+  if (e.target === activityPostModal) activityPostModal.classList.add("hidden");
+};
 
 clubPostForm.onsubmit = submitClubPost;
 
