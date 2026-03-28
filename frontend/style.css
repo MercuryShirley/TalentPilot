@@ -141,6 +141,7 @@ body {
   padding: 12px;
   display: grid;
   gap: 10px;
+  margin-bottom: 10px;
 }
 
 .publisher-form h3,
@@ -207,6 +208,13 @@ body {
   color: #b3651f;
   font-weight: 700;
   text-decoration: none;
+}
+
+.club-panel-brief {
+  width: min(660px, 100%);
+  margin: 0 auto;
+  color: #8a613f;
+  font-size: 14px;
 }
 
 .publisher-empty {
@@ -646,13 +654,42 @@ input {
 
 .browse-split {
   display: grid;
-  grid-template-columns: 1.1fr 1fr;
-  gap: 14px;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  align-items: start;
+}
+
+.browse-block {
+  background: #fff8ee;
+  border: 1px solid #efd6b3;
+  border-radius: 14px;
+  padding: 12px;
+}
+
+.browse-club-grid {
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
 }
 
 .browse-subtitle {
   margin: 0 0 8px;
   color: #6f472e;
+}
+
+.publisher-launch-row {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 10px;
+}
+
+.post-modal-panel {
+  width: min(760px, 92vw);
+  max-height: 84vh;
+  overflow: auto;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 22px 46px rgba(35, 62, 96, 0.24);
+  padding: 14px;
 }
 
 .generate-overlay {
@@ -856,6 +893,13 @@ input {
   }
   .browse-split {
     grid-template-columns: 1fr;
+  }
+  .browse-club-grid {
+    grid-template-columns: 1fr;
+  }
+  .post-modal-panel {
+    width: 94vw;
+    padding: 10px;
   }
   .global-ai-btn {
     right: 12px;

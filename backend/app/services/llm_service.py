@@ -157,6 +157,51 @@ def chat_with_club_ai(club_name: str, category: str, intro: str, messages: list[
         return "我这会儿网络有点忙，你可以先问我：面试看重什么、每周投入多少、零基础怎么准备。"
 
 
+def chat_with_global_ai(clubs: list[dict], messages: list[dict]) -> str:
+    if not messages:
+        return "你好，我是智能社团助手。你可以告诉我兴趣方向、每周时间、是否零基础，我会给你具体社团和联系建议。"
+
+    club_lines = []
+    for c in clubs[:50]:
+        name = c.get("name", "")
+        category = c.get("category", "")
+        intro = c.get("intro", "")
+        club_lines.append(f"- {name}（{category}）：{intro}")
+    club_context = "\n".join(club_lines) if club_lines else "暂无社团数据。"
+
+    if not settings.llm_api_key:
+        return "当前AI助手暂未连接模型服务。你可以先浏览社团广场，并优先查看“获取社团群”和“活动信息”获取联系入口。"
+
+    system_prompt = (
+        "你是高校社团招新平台的全局AI学长。"
+        "你的职责：根据用户问题，从给定社团清单中做推荐、比较、联系建议、投递建议。"
+        "回答规则："
+        "1) 只依据给定社团信息，不编造不存在的社团或联系方式；"
+        "2) 优先给结论，再给1-3条可执行建议；"
+        "3) 回答简洁、中文、3-6句；"
+        "4) 当用户问“怎么联系”时，明确提示点击“获取社团群”。"
+        f"\n\n可用社团信息：\n{club_context}"
+    )
+
+    chat_messages = [{"role": "system", "content": system_prompt}] + messages[-10:]
+
+    try:
+        response = requests.post(
+            f"{settings.llm_base_url}/chat/completions",
+            headers={"Authorization": f"Bearer {settings.llm_api_key}"},
+            json={
+                "model": settings.llm_model,
+                "messages": chat_messages,
+                "temperature": 0.5,
+            },
+            timeout=settings.llm_timeout,
+        )
+        response.raise_for_status()
+        return response.json()["choices"][0]["message"]["content"].strip()
+    except Exception:
+        return "我暂时有点忙。你可以先告诉我你的兴趣（如音乐/公益/科技）和每周可投入时间，我会给你更精准的社团建议。"
+
+
 def generate_match_reasons(student_data: dict, club_data: dict, score: float) -> list[str]:
     if not settings.llm_api_key:
         return [

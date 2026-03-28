@@ -517,13 +517,14 @@ async function sendClubChatMessage() {
       renderChatMessages(chatKey);
       await typeAssistantReply(chatKey, res.answer || "暂时没有回复");
     } else {
-      if (!state.clubs.length) {
-        state.clubs = await api("/clubs");
-      }
-      const answer = getGlobalAssistantAnswer(text);
+      const payloadMessages = state.clubChats[chatKey].slice(-10).map((m) => ({ role: m.role, content: m.content }));
+      const res = await api("/clubs/global-ask", {
+        method: "POST",
+        body: JSON.stringify({ messages: payloadMessages }),
+      });
       state.chatTyping[chatKey] = false;
       renderChatMessages(chatKey);
-      await typeAssistantReply(chatKey, answer);
+      await typeAssistantReply(chatKey, res.answer || "暂时没有回复");
     }
   } catch (e) {
     state.chatTyping[chatKey] = false;

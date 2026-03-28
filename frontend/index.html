@@ -89,19 +89,9 @@
             </section>
             <section class="browse-block">
               <h3 class="browse-subtitle">社团活动信息</h3>
-              <form id="clubPostForm" class="publisher-form browse-publisher-form">
-                <h4>发布活动</h4>
-                <div class="publisher-grid">
-                  <input id="postClubName" placeholder="社团名称（如：吉他社）" required />
-                  <input id="postTitle" placeholder="活动标题" required />
-                  <input id="postCoverUrl" placeholder="封面图链接（可选）" />
-                  <input id="postTime" type="datetime-local" required />
-                  <input id="postLocation" placeholder="活动地点" required />
-                  <input id="postApplyLink" placeholder="报名链接" required />
-                </div>
-                <textarea id="postContent" placeholder="活动正文（亮点、面向人群、参与方式）" rows="3" required></textarea>
-                <button id="submitClubPostBtn" type="submit" class="primary-btn">发布活动</button>
-              </form>
+              <div class="publisher-launch-row">
+                <button id="openPostModalBtn" class="primary-btn">发布活动</button>
+              </div>
               <div id="browseActivityList" class="publisher-list"></div>
             </section>
           </div>
@@ -135,6 +125,27 @@
     </div>
 
     <button id="globalAIBtn" class="global-ai-btn">🤖 智能社团助手</button>
+
+    <div id="activityPostModal" class="chat-modal hidden">
+      <div class="post-modal-panel">
+        <div class="chat-head">
+          <strong>发布社团活动</strong>
+          <button id="closePostModalBtn" class="ghost-btn">关闭</button>
+        </div>
+        <form id="clubPostForm" class="publisher-form browse-publisher-form">
+          <div class="publisher-grid">
+            <input id="postClubName" placeholder="社团名称（如：吉他社）" required />
+            <input id="postTitle" placeholder="活动标题" required />
+            <input id="postCoverUrl" placeholder="封面图链接（可选）" />
+            <input id="postTime" type="datetime-local" required />
+            <input id="postLocation" placeholder="活动地点" required />
+            <input id="postApplyLink" placeholder="报名链接" required />
+          </div>
+          <textarea id="postContent" placeholder="活动正文（亮点、面向人群、参与方式）" rows="4" required></textarea>
+          <button id="submitClubPostBtn" type="submit" class="primary-btn">发布活动</button>
+        </form>
+      </div>
+    </div>
 
     <div id="clubChatModal" class="chat-modal hidden">
       <div class="chat-panel">
