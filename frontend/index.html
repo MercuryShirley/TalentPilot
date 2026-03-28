@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ClubScout 新生匹配</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section id="welcomeScreen" class="screen active">
+        <div class="hero-glow hero-glow-a"></div>
+        <div class="hero-glow hero-glow-b"></div>
+        <div class="hero-card">
+          <p class="eyebrow">ClubScout · 校园社团双端平台</p>
+          <h1>发现适合你的社团，也让社团更容易被看见</h1>
+          <p class="subtitle">面向同学端做智能推荐，面向社团端做活动发布曝光。一个平台，完成匹配、咨询、投递。</p>
+
+          <div class="hero-tabs" id="homeTabs">
+            <button class="hero-tab active" data-tab="student">同学端 · 智能推荐</button>
+            <button class="hero-tab" data-tab="club">社团端 · 活动发布广场</button>
+          </div>
+
+          <div class="hero-panel active" id="studentPanel">
+            <div class="hero-tags">
+              <span>🎯 卡片式测评</span>
+              <span>🧠 AI洞察</span>
+              <span>⚡ 一键投递</span>
+            </div>
+            <div class="hero-actions">
+              <button id="startAssessmentBtn" class="primary-large">我不清楚喜好，开始AI测评</button>
+              <button id="browseDirectBtn" class="hero-ghost-large">我先不测试，直接逛社团</button>
+            </div>
+          </div>
+
+          <div class="hero-panel" id="clubPanel">
+            <div class="hero-tags">
+              <span>📣 图文活动发布</span>
+              <span>🔥 新社团曝光</span>
+              <span>🧲 吸引精准投递</span>
+            </div>
+            <div class="club-panel-brief">
+              <p>社团端功能已统一放入“社团广场”，可在广场内发布活动、展示封面图、维护报名链接。</p>
+            </div>
+            <div class="hero-actions hero-actions-single">
+              <button id="enterClubPlazaBtn" class="primary-large">进入社团活动发布广场</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="assessmentScreen" class="screen">
+        <div class="wizard-card">
+          <div class="wizard-top">
+            <button id="backToWelcomeBtn" class="ghost-link">← 返回欢迎页</button>
+            <div class="wizard-progress-wrap">
+              <div class="wizard-progress-bar"><span id="wizardProgressFill"></span></div>
+              <span id="wizardProgressText">步骤 1 / 9</span>
+            </div>
+          </div>
+          <div id="wizardBody" class="wizard-body"></div>
+          <div class="wizard-actions">
+            <button id="wizardPrevBtn" class="ghost-btn">上一步</button>
+            <button id="wizardNextBtn" class="primary-btn">下一步</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="browseScreen" class="screen">
+        <div class="results-header">
+          <button id="backToWelcomeFromBrowseBtn" class="ghost-link">← 返回欢迎页</button>
+        </div>
+
+      <section class="browse-panel">
+          <h2>社团广场</h2>
+          <div class="browse-tools">
+            <div id="categoryFilters" class="chip-row"></div>
+            <div class="page-tools">
+              <button id="browsePrevBtn" class="ghost-btn">上一页</button>
+              <span id="browsePageInfo">第 1 / 1 页</span>
+              <button id="browseNextBtn" class="ghost-btn">下一页</button>
+            </div>
+          </div>
+
+          <div class="browse-split">
+            <section class="browse-block">
+              <h3 class="browse-subtitle">社团信息</h3>
+              <div id="browseList" class="rec-feed browse-club-grid"></div>
+            </section>
+            <section class="browse-block">
+              <h3 class="browse-subtitle">社团活动信息</h3>
+              <form id="clubPostForm" class="publisher-form browse-publisher-form">
+                <h4>发布活动</h4>
+                <div class="publisher-grid">
+                  <input id="postClubName" placeholder="社团名称（如：吉他社）" required />
+                  <input id="postTitle" placeholder="活动标题" required />
+                  <input id="postCoverUrl" placeholder="封面图链接（可选）" />
+                  <input id="postTime" type="datetime-local" required />
+                  <input id="postLocation" placeholder="活动地点" required />
+                  <input id="postApplyLink" placeholder="报名链接" required />
+                </div>
+                <textarea id="postContent" placeholder="活动正文（亮点、面向人群、参与方式）" rows="3" required></textarea>
+                <button id="submitClubPostBtn" type="submit" class="primary-btn">发布活动</button>
+              </form>
+              <div id="browseActivityList" class="publisher-list"></div>
+            </section>
+          </div>
+        </section>
+      </section>
+
+      <section id="resultsScreen" class="screen">
+        <div class="results-header">
+          <button id="backToAssessmentBtn" class="ghost-link">← 返回测评</button>
+          <div class="results-actions">
+            <button id="shuffleBtn" class="ghost-btn">换一批推荐</button>
+            <button id="restartBtn" class="ghost-btn">重新测评</button>
+          </div>
+        </div>
+
+        <div id="resumeCard" class="resume-card"></div>
+
+        <section>
+          <h2>为你精选的社团推荐</h2>
+          <div id="recList" class="rec-feed"></div>
+        </section>
+      </section>
+    </main>
+
+    <div id="generateOverlay" class="generate-overlay hidden">
+      <div class="generate-panel">
+        <div class="pulse"></div>
+        <h3>AI 学长正在生成你的数字简历...</h3>
+        <p>正在融合你的兴趣、能力与性格特征</p>
+      </div>
+    </div>
+
+    <button id="globalAIBtn" class="global-ai-btn">🤖 智能社团助手</button>
+
+    <div id="clubChatModal" class="chat-modal hidden">
+      <div class="chat-panel">
+        <div class="chat-head">
+          <strong id="chatModalTitle">AI学长咨询</strong>
+          <button id="chatCloseBtn" class="ghost-btn">关闭</button>
+        </div>
+        <div id="chatMessages" class="chat-messages"></div>
+        <div class="chat-input-row">
+          <input id="chatInput" placeholder="问问：我想去音乐社团，推荐几个并告诉怎么联系？" />
+          <button id="chatSendBtn" class="primary-btn">发送</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
