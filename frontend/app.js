@@ -432,11 +432,11 @@ function openGlobalAssistant() {
   state.currentChatKey = key;
   if (!state.clubChats[key]) {
     state.clubChats[key] = [
-      { role: "assistant", content: "你好，我是智能社团助手。你可以问我：想找什么类型社团、社团联系方式、活动时间、投递建议等公共问题。" },
+      { role: "assistant", content: "你好，我是智能社团助手（DeepSeek）。你可以问我：想找什么类型社团、社团联系方式、活动时间、投递建议等公共问题。" },
     ];
   }
   state.chatTyping[key] = false;
-  chatModalTitle.textContent = "智能社团助手";
+  chatModalTitle.textContent = "智能社团助手 · DeepSeek";
   clubChatModal.classList.remove("hidden");
   renderChatMessages(key);
   setTimeout(() => chatInput.focus(), 50);
